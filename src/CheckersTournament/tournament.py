@@ -4,7 +4,7 @@ from game_elements.piece import PlayerId
 from match import Player, Match
 from strategies import ALL_STRATEGIES
 
-NUM_OF_GAMES = 50
+NUM_OF_GAMES = 5
 
 
 class Tournament:
@@ -32,3 +32,6 @@ class Tournament:
             result.append(line_result)
         print(list(map(lambda x: x.__name__, ALL_STRATEGIES)))
         print('\n'.join([str(l) for l in result]))
+
+if __name__ == "__main__":
+    Tournament.run_tournament()

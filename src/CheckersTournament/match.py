@@ -15,6 +15,7 @@ class Player:
     def play_turn(self, board: Board, legal_moves: List[List[Move]]):
         best_move = self.strategy.choose_best_move(board, legal_moves)
         board.run_moves(best_move)
+        return best_move
 
     def get_player_id(self) -> int:
         return self.player_id
@@ -22,13 +23,23 @@ class Player:
 
 class Match:
     def __init__(self, players: List[Player], board: Board):
-        self.players = players
-        self.board = board
-        self.current_player_index = None
+        self.players: List[Player] = players
+        self.board: Board = board
+        self.last_move: Move = None
+        self.moves_count: int = 0
+        self.current_player_index: int = None
+
+    def get_state_str(self):
+        b = str(self.board).splitlines()
+        last_move = f"The last move that was played was {self.last_move}"
+        cur_player = f"The current player is {self.current_player_index}"
+        b[4] = b[4] + "\t" + last_move
+        b[5] = b[5] + "\t" + cur_player
+        return f"Board after move {self.moves_count}\n" + "\n".join(b)
 
     def is_win(self):
-        for i in self.players:
-            pieces = self.board.get_player_pieces_location(i.get_player_id())
+        for p in self.players:
+            pieces = self.board.get_player_pieces_location(p.get_player_id())
             if len(pieces) == 0:
                 return True
         return False
@@ -57,12 +68,28 @@ class Match:
 
     def play_once(self, legal_moves: List[List[Move]]):
         player = self.players[self.current_player_index]
-        player.play_turn(self.board, legal_moves)
+        played_move = player.play_turn(self.board, legal_moves)
+        self.last_move = played_move
+        self.moves_count += 1
+        return played_move
 
     def set_next_player(self):
         self.current_player_index += 1
         self.current_player_index %= len(self.players)
         self.board.rotate()
+
+    def debug_match(self):
+        self.setup_match()
+        is_over = False
+        legal_moves = self.get_legal_moves_for_player()
+        while not is_over:
+            input("Press any key for next move...")
+            print(self.get_state_str())
+            played_move = self.play_once(legal_moves)
+            self.set_next_player()
+            legal_moves = self.get_legal_moves_for_player()
+            is_over = self.is_win() or len(legal_moves) == 0
+        return self.current_player_index
 
 
 def play_match():
@@ -73,6 +100,9 @@ def play_match():
     board = Board()
     players = [player1, player2]
     match = Match(players, board)
-    i = match.match()
+    i = match.debug_match()
     print(f'player {i} wins with strategy {players[i].strategy.__class__}\n'
           f'other staretegy was: {players[i^1].strategy.__class__}')
+
+if __name__ =="__main__":
+    play_match()
