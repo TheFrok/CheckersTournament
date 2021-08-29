@@ -4,7 +4,7 @@ from game_elements.piece import PlayerId
 from match import Player, Match
 from strategies import ALL_STRATEGIES
 
-NUM_OF_GAMES = 5
+NUM_OF_GAMES = 50
 
 
 class Tournament:
@@ -27,8 +27,9 @@ class Tournament:
                       f'     VS. {player2.strategy.__class__.__name__} as black')
                 for games in range(NUM_OF_GAMES):
                     black_wins += match.match()
-                line_result.append(black_wins/NUM_OF_GAMES)
-                print(f'White won {(NUM_OF_GAMES - black_wins)/NUM_OF_GAMES*100}%')
+                white_win_rate = (NUM_OF_GAMES - black_wins)/NUM_OF_GAMES
+                line_result.append(white_win_rate)
+                print(f'White won {white_win_rate * 100}%')
             result.append(line_result)
         print(list(map(lambda x: x.__name__, ALL_STRATEGIES)))
         print('\n'.join([str(l) for l in result]))

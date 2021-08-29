@@ -62,9 +62,7 @@ class Match:
             self.set_next_player()
             legal_moves = self.get_legal_moves_for_player()
             is_over = self.is_win() or len(legal_moves) == 0
-        # print(f"Player {(self.current_player_index -1) % len(self.players)} won:")
-        # print(self.board)
-        return self.current_player_index
+        return self.get_previous_player()
 
     def play_once(self, legal_moves: List[List[Move]]):
         player = self.players[self.current_player_index]
@@ -89,7 +87,10 @@ class Match:
             self.set_next_player()
             legal_moves = self.get_legal_moves_for_player()
             is_over = self.is_win() or len(legal_moves) == 0
-        return self.current_player_index
+        return self.get_previous_player()
+
+    def get_previous_player(self):
+        return (self.current_player_index - 1) % len(self.players)
 
 
 def play_match():
@@ -100,9 +101,10 @@ def play_match():
     board = Board()
     players = [player1, player2]
     match = Match(players, board)
-    i = match.debug_match()
-    print(f'player {i} wins with strategy {players[i].strategy.__class__}\n'
-          f'other staretegy was: {players[i^1].strategy.__class__}')
+    winner_id = match.match()
+    print(match.get_state_str())
+    print(f'player {winner_id} wins with strategy {players[winner_id].strategy.__class__}\n'
+          f'other staretegy was: {players[winner_id^1].strategy.__class__}')
 
 if __name__ =="__main__":
     play_match()
