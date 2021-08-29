@@ -1,8 +1,8 @@
-from .game_elements.board import Board
+from game_elements.board import Board
 
-from .game_elements.piece import PlayerId
-from .match import Player, Match
-from .strategies import ALL_STRATEGIES
+from game_elements.piece import PlayerId
+from match import Player, Match
+from strategies import ALL_STRATEGIES
 
 NUM_OF_GAMES = 50
 

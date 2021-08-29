@@ -1,7 +1,7 @@
 from typing import List, Tuple
 
-from .game_elements.board import Board, Vector, Square, Move
-from .game_elements.piece import PieceType
+from game_elements.board import Board, Vector, Square, Move
+from game_elements.piece import PieceType
 
 
 class GameMechanics:

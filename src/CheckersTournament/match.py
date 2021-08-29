@@ -1,10 +1,10 @@
 import random
 from typing import List, Type
 
-from .game import GameMechanics
-from .game_elements.board import Board, Move
-from .game_elements.piece import PlayerId
-from .strategies import Strategy, ALL_STRATEGIES
+from game import GameMechanics
+from game_elements.board import Board, Move
+from game_elements.piece import PlayerId
+from strategies import Strategy, ALL_STRATEGIES
 
 
 class Player:

@@ -2,7 +2,7 @@ import random
 from typing import List
 from collections import defaultdict
 
-from ..game_elements.board import Move, Board, Square
+from game_elements.board import Move, Board, Square
 
 
 class Strategy:
